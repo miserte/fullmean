@@ -11,12 +11,12 @@ import { CommunicateService } from './../communicate.service';
 export class TopicComponent implements OnInit {
   topic;
   errormessage;
-  //user;
+  user;
   //hardcoded user
-  user:Object = {
+  /*user:Object = {
     id: '594c0b7ac342fb203bc87548',
     username: '4',
-  };
+  };*/
 
   constructor(private _communicateService: CommunicateService, private _route: ActivatedRoute, private _http: HttpService) {
     _communicateService.updateUser(this.user);

@@ -8,12 +8,12 @@ import { HttpService } from './../http.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  //user;
+  user;
   //hardcoded user
-  user:Object = {
+  /*user:Object = {
     id: '594c0b7ac342fb203bc87548',
     username: '4',
-  };
+  };*/
   topics: Array<Object>;
   errormessage;
   topic;
