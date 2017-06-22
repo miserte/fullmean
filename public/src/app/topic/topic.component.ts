@@ -19,7 +19,8 @@ export class TopicComponent implements OnInit {
   };*/
 
   constructor(private _communicateService: CommunicateService, private _route: ActivatedRoute, private _http: HttpService) {
-    _communicateService.updateUser(this.user);
+    // for hardcoded user 
+    //_communicateService.updateUser(this.user);
     _communicateService.observedUser.subscribe(
       (updatedUsers) => { this.user = updatedUsers; },
       (err) => { },

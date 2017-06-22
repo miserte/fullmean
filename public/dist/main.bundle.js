@@ -79,7 +79,8 @@ var DashboardComponent = (function () {
         var _this = this;
         this._communicateService = _communicateService;
         this._http = _http;
-        _communicateService.updateUser(this.user);
+        // for hardcoded user 
+        //_communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this.getTopics();
     }
@@ -236,7 +237,8 @@ var TopicComponent = (function () {
         this._communicateService = _communicateService;
         this._route = _route;
         this._http = _http;
-        _communicateService.updateUser(this.user);
+        // for hardcoded user 
+        //_communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this._route.params.subscribe(function (param) {
             _http.getTopic(param)

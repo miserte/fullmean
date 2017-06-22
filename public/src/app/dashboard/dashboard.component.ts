@@ -24,7 +24,8 @@ export class DashboardComponent implements OnInit {
   // category: { type: String, required: true },
 
   constructor(private _communicateService: CommunicateService, private _http: HttpService) {
-    _communicateService.updateUser(this.user);
+    // for hardcoded user 
+    //_communicateService.updateUser(this.user);
     _communicateService.observedUser.subscribe(
 			(updatedUsers) => {  this.user = updatedUsers; },
 			(err) => { },
