@@ -1,0 +1,11 @@
+<div *ngIf="topic && user">
+  {{topic._user}} posted a topic:<br/>
+  <b>{{topic.name | json}}</b><br>
+  <b>Description: {{topic.description | json}}</b><br>
+</div>
+<div *ngIf="errormessage">
+  Error: {{errormessage}}
+</div>  
+<div *ngIf="!user">
+  You're not a registered user, please <a [routerLink]="['/']">log-in</a>
+</div>

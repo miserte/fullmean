@@ -1,0 +1,22 @@
+<!--// text: { type: String, required: true },
+  // description: { type: String, required: true },
+  // category: { type: String, required: true },-->
+{{topics | json}}
+<div *ngIf="user">
+  user: {{user | json}}<br/><br/> 
+  Topic List<br/> 
+  <div *ngFor='let topic of topics'>
+  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} 
+  </div>
+  Add topic<br/>
+  <form ngForm="topicForm">
+    Text: <input type="text" name="text" #text> Description: <input type="text" name="description" #description> Category:
+    <input type="text" name="category" #category>
+    <button (click)="addTopic(text.value, description.value, category.value)">Add Topic</button>
+  </form>
+
+</div>
+
+<div *ngIf="!user">
+  You're not a registered user, please <a [routerLink]="['/']">log-in</a>
+</div>
