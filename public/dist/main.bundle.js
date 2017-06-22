@@ -1,42 +1,6 @@
 webpackJsonp([1,4],{
 
-/***/ 119:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommunicateService; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var CommunicateService = (function () {
-    function CommunicateService() {
-        this.observedUser = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"](null);
-    }
-    CommunicateService.prototype.updateUser = function (user) {
-        this.observedUser.next(user);
-    };
-    CommunicateService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
-        __metadata('design:paramtypes', [])
-    ], CommunicateService);
-    return CommunicateService;
-}());
-//# sourceMappingURL=/Users/markus_sbd1/development/mean/fullmean/beltpreparation/public/src/communicate.service.js.map
-
-/***/ }),
-
-/***/ 173:
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92,8 +56,8 @@ var HttpService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(120);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -115,12 +79,6 @@ var DashboardComponent = (function () {
         var _this = this;
         this._communicateService = _communicateService;
         this._http = _http;
-        //user;
-        //hardcoded user
-        this.user = {
-            id: '594c0b7ac342fb203bc87548',
-            username: '4',
-        };
         _communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this.getTopics();
@@ -186,9 +144,9 @@ var DashboardComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(172);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -250,9 +208,9 @@ var LoginComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_service__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_service__ = __webpack_require__(91);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TopicComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -268,17 +226,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TopicComponent = (function () {
+    //hardcoded user
+    /*user:Object = {
+      id: '594c0b7ac342fb203bc87548',
+      username: '4',
+    };*/
     function TopicComponent(_communicateService, _route, _http) {
         var _this = this;
         this._communicateService = _communicateService;
         this._route = _route;
         this._http = _http;
-        //user;
-        //hardcoded user
-        this.user = {
-            id: '594c0b7ac342fb203bc87548',
-            username: '4',
-        };
         _communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this._route.params.subscribe(function (param) {
@@ -349,7 +306,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dyna
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_dashboard_component__ = __webpack_require__(362);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login_component__ = __webpack_require__(363);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__topic_topic_component__ = __webpack_require__(364);
@@ -397,9 +354,9 @@ var AppRoutingModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(172);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -458,12 +415,12 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_service__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__http_service__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_service__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__http_service__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__(550);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__child_child_component__ = __webpack_require__(552);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__dashboard_dashboard_component__ = __webpack_require__(362);
@@ -526,7 +483,7 @@ var AppModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_service__ = __webpack_require__(91);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChildComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -634,14 +591,14 @@ module.exports = "<br/>Users from child {{users | json}}\n"
 /***/ 714:
 /***/ (function(module, exports) {
 
-module.exports = "<!--// text: { type: String, required: true },\n  // description: { type: String, required: true },\n  // category: { type: String, required: true },-->\n{{topics | json}}\n<div *ngIf=\"user\">\n  user: {{user | json}}<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} \n  </div>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+module.exports = "<!--// text: { type: String, required: true },\n  // description: { type: String, required: true },\n  // category: { type: String, required: true },-->\n<div *ngIf=\"user\">\n  user: {{user | json}}<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} \n  </div>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
 
 /***/ }),
 
 /***/ 715:
 /***/ (function(module, exports) {
 
-module.exports = " {{user | json}}\n<form ngForm=\"userForm\">\nUsername: <input type=\"text\" name=\"username\" #username>\n <button (click)=\"updateUser(username.value)\">Login</button>\n </form>"
+module.exports = "<form ngForm=\"userForm\">\nUsername: <input type=\"text\" name=\"username\" #username>\n <button (click)=\"updateUser(username.value)\">Login</button>\n </form>"
 
 /***/ }),
 
@@ -649,6 +606,42 @@ module.exports = " {{user | json}}\n<form ngForm=\"userForm\">\nUsername: <input
 /***/ (function(module, exports) {
 
 module.exports = "<div *ngIf=\"topic && user\">\n  {{topic._user}} posted a topic:<br/>\n  <b>{{topic.name | json}}</b><br>\n  <b>Description: {{topic.description | json}}</b><br>\n</div>\n<div *ngIf=\"errormessage\">\n  Error: {{errormessage}}\n</div>  \n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommunicateService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CommunicateService = (function () {
+    function CommunicateService() {
+        this.observedUser = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"](null);
+    }
+    CommunicateService.prototype.updateUser = function (user) {
+        this.observedUser.next(user);
+    };
+    CommunicateService = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
+        __metadata('design:paramtypes', [])
+    ], CommunicateService);
+    return CommunicateService;
+}());
+//# sourceMappingURL=/Users/markus_sbd1/development/mean/fullmean/beltpreparation/public/src/communicate.service.js.map
 
 /***/ }),
 
