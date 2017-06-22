@@ -593,7 +593,7 @@ module.exports = "<br/>Users from child {{users | json}}\n"
 /***/ 714:
 /***/ (function(module, exports) {
 
-module.exports = "<!--// text: { type: String, required: true },\n  // description: { type: String, required: true },\n  // category: { type: String, required: true },-->\n<div *ngIf=\"user\">\n  user: {{user | json}}<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} \n  </div>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+module.exports = "<div *ngIf=\"user\">\n  Welcome {{user.username}}<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} \n  </div><br/><br/>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
 
 /***/ }),
 

@@ -1,12 +1,9 @@
-<!--// text: { type: String, required: true },
-  // description: { type: String, required: true },
-  // category: { type: String, required: true },-->
 <div *ngIf="user">
-  user: {{user | json}}<br/><br/> 
+  Welcome {{user.username}}<br/><br/> 
   Topic List<br/> 
   <div *ngFor='let topic of topics'>
   {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} 
-  </div>
+  </div><br/><br/>
   Add topic<br/>
   <form ngForm="topicForm">
     Text: <input type="text" name="text" #text> Description: <input type="text" name="description" #description> Category:
