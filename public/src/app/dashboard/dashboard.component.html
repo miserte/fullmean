@@ -1,8 +1,8 @@
-<div *ngIf="user">
-  Welcome {{user.username}}<br/><br/> 
+<div *ngIf="user && topics">
+  Welcome, {{user.username}}!<br/><br/> 
   Topic List<br/> 
   <div *ngFor='let topic of topics'>
-  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} 
+  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  User: <a routerLink='/user/{{ topic._user}}'>{{topic._user}}</a> | Posts: {{topic.posts.length}}
   </div><br/><br/>
   Add topic<br/>
   <form ngForm="topicForm">

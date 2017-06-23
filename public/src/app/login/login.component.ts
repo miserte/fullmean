@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { CommunicateService } from './../communicate.service';
-import { HttpService} from './../http.service';
-import {Router} from '@angular/router';
+import { HttpService } from './../http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-user;
+  user;
   errormessage;
 
   constructor(private _communicateService: CommunicateService, private _http: HttpService, private _router: Router) {
@@ -23,7 +23,7 @@ user;
 
   updateUser(username) {
     //Update user of this component
-    this.user = {username: username };
+    this.user = { username: username };
 
     //Store user in db and get id back
     this._http.addUser(this.user)

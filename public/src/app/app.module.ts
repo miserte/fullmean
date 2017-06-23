@@ -12,6 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { TopicComponent } from './topic/topic.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TopicComponent } from './topic/topic.component';
     ChildComponent,
     DashboardComponent,
     LoginComponent,
-    TopicComponent
+    TopicComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

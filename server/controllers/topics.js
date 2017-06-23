@@ -5,7 +5,8 @@ var User = mongoose.model('User');
 module.exports = {
     show: function (req, res) {
         Topic.find({})
-            .populate('posts', 'comments')
+            .populate('posts')
+            .populate('comments')
             .exec(function (err, topics) {
                 if (err) {
                     console.log(err);
@@ -17,7 +18,8 @@ module.exports = {
     one: function (req, res) {
         console.log('in find one function', req.params.id)
         Topic.findOne({_id: req.params.id})
-            .populate('posts', 'comments')
+            .populate('posts')
+            .populate('comments')
             .exec(function (err, topic) {
                 if (err) {
                     console.log(err);

@@ -6,7 +6,7 @@ webpackJsonp([1,4],{
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(718);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(721);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HttpService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -29,6 +29,10 @@ var HttpService = (function () {
         console.log('usser is ', user);
         return this._http.post("/adduser", user).map(function (response) { return response.json(); }).toPromise();
     };
+    HttpService.prototype.addPost = function (info) {
+        console.log('topic is ', info);
+        return this._http.post("/addpost", info).map(function (response) { return response.json(); }).toPromise();
+    };
     HttpService.prototype.getTopics = function () {
         return this._http.get("/topics").map(function (response) { return response.json(); }).toPromise();
     };
@@ -36,9 +40,17 @@ var HttpService = (function () {
         console.log('in getTopic', param.id);
         return this._http.get("/gettopic/" + param.id).map(function (response) { return response.json(); }).toPromise();
     };
+    HttpService.prototype.getUser = function (param) {
+        console.log('in getUser', param.id);
+        return this._http.get("/getuser/" + param.id).map(function (response) { return response.json(); }).toPromise();
+    };
     HttpService.prototype.addTopic = function (info) {
         console.log('topic is ', info);
         return this._http.post("/addtopic", info).map(function (response) { return response.json(); }).toPromise();
+    };
+    HttpService.prototype.vote = function (info) {
+        console.log('upvoting post service ', info);
+        return this._http.post("/vote", info).map(function (response) { return response.json(); }).toPromise();
     };
     HttpService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -72,15 +84,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DashboardComponent = (function () {
-    // text: { type: String, required: true },
-    // description: { type: String, required: true },
-    // category: { type: String, required: true },
     function DashboardComponent(_communicateService, _http) {
+        // for hardcoded user 
+        //_communicateService.updateUser(this.user);
         var _this = this;
         this._communicateService = _communicateService;
         this._http = _http;
-        // for hardcoded user 
-        //_communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this.getTopics();
     }
@@ -128,8 +137,8 @@ var DashboardComponent = (function () {
     DashboardComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-dashboard',
-            template: __webpack_require__(714),
-            styles: [__webpack_require__(709)]
+            template: __webpack_require__(716),
+            styles: [__webpack_require__(710)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */]) === 'function' && _b) || Object])
     ], DashboardComponent);
@@ -192,8 +201,8 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-login',
-            template: __webpack_require__(715),
-            styles: [__webpack_require__(710)]
+            template: __webpack_require__(717),
+            styles: [__webpack_require__(711)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */]) === 'function' && _c) || Object])
     ], LoginComponent);
@@ -227,37 +236,71 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TopicComponent = (function () {
-    //hardcoded user
-    /*user:Object = {
-      id: '594c0b7ac342fb203bc87548',
-      username: '4',
-    };*/
     function TopicComponent(_communicateService, _route, _http) {
+        // for hardcoded user 
+        //_communicateService.updateUser(this.user);
         var _this = this;
         this._communicateService = _communicateService;
         this._route = _route;
         this._http = _http;
-        // for hardcoded user 
-        //_communicateService.updateUser(this.user);
         _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
         this._route.params.subscribe(function (param) {
-            _http.getTopic(param)
-                .then(function (data) {
-                _this.topic = data;
-            })
-                .catch(function (err) {
-                console.log('Error retriving topic');
-                _this.errormessage = err;
-            });
+            _this.param = param;
+            _this.getTopic();
         });
     }
+    TopicComponent.prototype.getTopic = function () {
+        var _this = this;
+        this._http.getTopic(this.param)
+            .then(function (data) {
+            _this.topic = data;
+        })
+            .catch(function (err) {
+            console.log('Error retriving topic');
+            _this.errormessage = err;
+        });
+    };
+    TopicComponent.prototype.addPost = function (post) {
+        var _this = this;
+        this.post = {
+            text: post
+        };
+        this.info = {
+            post: this.post,
+            topic: this.topic
+        };
+        this._http.addPost(this.info)
+            .then(function (data) {
+            _this.getTopic();
+        })
+            .catch(function (err) {
+            _this.errormessage = 'Problem addming topic';
+            console.log('error found', err);
+        });
+    };
+    TopicComponent.prototype.vote = function (id, vote) {
+        var _this = this;
+        this.info = {
+            id: id,
+            vote: vote
+        };
+        console.log(vote);
+        this._http.vote(this.info)
+            .then(function (data) {
+            _this.getTopic();
+        })
+            .catch(function (err) {
+            console.log('error upvoting');
+            _this.errormessage = err;
+        });
+    };
     TopicComponent.prototype.ngOnInit = function () {
     };
     TopicComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-topic',
-            template: __webpack_require__(716),
-            styles: [__webpack_require__(711)]
+            template: __webpack_require__(718),
+            styles: [__webpack_require__(712)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */]) === 'function' && _c) || Object])
     ], TopicComponent);
@@ -289,7 +332,7 @@ webpackEmptyContext.id = 431;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(519);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(553);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(554);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_app_module__ = __webpack_require__(551);
 
 
@@ -312,6 +355,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dyna
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_dashboard_component__ = __webpack_require__(362);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login_component__ = __webpack_require__(363);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__topic_topic_component__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__user_user_component__ = __webpack_require__(553);
 /* unused harmony export routing */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -328,11 +372,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var routes = [
     { path: '', pathMatch: 'full', component: __WEBPACK_IMPORTED_MODULE_3__login_login_component__["a" /* LoginComponent */] },
     { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_2__dashboard_dashboard_component__["a" /* DashboardComponent */] },
     { path: 'topic/:id', component: __WEBPACK_IMPORTED_MODULE_4__topic_topic_component__["a" /* TopicComponent */] },
-    { path: 'gohome', redirectTo: '/home' }
+    { path: 'user/:id', component: __WEBPACK_IMPORTED_MODULE_5__user_user_component__["a" /* UserComponent */] },
+    { path: '**', redirectTo: '/' }
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(routes);
 var AppRoutingModule = (function () {
@@ -401,8 +447,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-root',
-            template: __webpack_require__(712),
-            styles: [__webpack_require__(707)]
+            template: __webpack_require__(714),
+            styles: [__webpack_require__(708)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */]) === 'function' && _c) || Object])
     ], AppComponent);
@@ -429,6 +475,7 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_routing_module__ = __webpack_require__(549);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login_login_component__ = __webpack_require__(363);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__topic_topic_component__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_user_component__ = __webpack_require__(553);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -451,6 +498,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
@@ -461,7 +509,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__child_child_component__["a" /* ChildComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__dashboard_dashboard_component__["a" /* DashboardComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__topic_topic_component__["a" /* TopicComponent */]
+                __WEBPACK_IMPORTED_MODULE_11__topic_topic_component__["a" /* TopicComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__user_user_component__["a" /* UserComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -513,8 +562,8 @@ var ChildComponent = (function () {
     ChildComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-child',
-            template: __webpack_require__(713),
-            styles: [__webpack_require__(708)]
+            template: __webpack_require__(715),
+            styles: [__webpack_require__(709)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object])
     ], ChildComponent);
@@ -529,6 +578,70 @@ var ChildComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__http_service__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_service__ = __webpack_require__(91);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var UserComponent = (function () {
+    //hardcoded user
+    /*user:Object = {
+      id: '594c0b7ac342fb203bc87548',
+      username: '4',
+    };*/
+    function UserComponent(_communicateService, _route, _http) {
+        var _this = this;
+        this._communicateService = _communicateService;
+        this._route = _route;
+        this._http = _http;
+        // for hardcoded user 
+        //_communicateService.updateUser(this.user);
+        _communicateService.observedUser.subscribe(function (updatedUsers) { _this.user = updatedUsers; }, function (err) { }, function () { });
+        this._route.params.subscribe(function (param) {
+            _http.getUser(param)
+                .then(function (data) {
+                _this.userinfo = data;
+            })
+                .catch(function (err) {
+                console.log('Error retriving user');
+                _this.errormessage = err;
+            });
+        });
+    }
+    UserComponent.prototype.ngOnInit = function () {
+    };
+    UserComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
+            selector: 'app-user',
+            template: __webpack_require__(719),
+            styles: [__webpack_require__(713)]
+        }), 
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__communicate_service__["a" /* CommunicateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__communicate_service__["a" /* CommunicateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__http_service__["a" /* HttpService */]) === 'function' && _c) || Object])
+    ], UserComponent);
+    return UserComponent;
+    var _a, _b, _c;
+}());
+//# sourceMappingURL=/Users/markus_sbd1/development/mean/fullmean/beltpreparation/public/src/user.component.js.map
+
+/***/ }),
+
+/***/ 554:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -538,13 +651,6 @@ var environment = {
     production: false
 };
 //# sourceMappingURL=/Users/markus_sbd1/development/mean/fullmean/beltpreparation/public/src/environment.js.map
-
-/***/ }),
-
-/***/ 707:
-/***/ (function(module, exports) {
-
-module.exports = ""
 
 /***/ }),
 
@@ -579,35 +685,56 @@ module.exports = ""
 /***/ 712:
 /***/ (function(module, exports) {
 
-module.exports = " <router-outlet></router-outlet>"
+module.exports = ""
 
 /***/ }),
 
 /***/ 713:
 /***/ (function(module, exports) {
 
-module.exports = "<br/>Users from child {{users | json}}\n"
+module.exports = ""
 
 /***/ }),
 
 /***/ 714:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"user\">\n  Welcome {{user.username}}<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  {{ topic._user}} \n  </div><br/><br/>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+module.exports = " <router-outlet></router-outlet>"
 
 /***/ }),
 
 /***/ 715:
 /***/ (function(module, exports) {
 
-module.exports = "<form ngForm=\"userForm\">\nUsername: <input type=\"text\" name=\"username\" #username>\n <button (click)=\"updateUser(username.value)\">Login</button>\n </form>"
+module.exports = "<br/>Users from child {{users | json}}\n"
 
 /***/ }),
 
 /***/ 716:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"topic && user\">\n  {{topic._user}} posted a topic:<br/>\n  <b>{{topic.name | json}}</b><br>\n  <b>Description: {{topic.description | json}}</b><br>\n</div>\n<div *ngIf=\"errormessage\">\n  Error: {{errormessage}}\n</div>  \n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+module.exports = "<div *ngIf=\"user && topics\">\n  Welcome, {{user.username}}!<br/><br/> \n  Topic List<br/> \n  <div *ngFor='let topic of topics'>\n  {{ topic.category }} | <a routerLink='/topic/{{topic._id}}' >{{ topic.text}}</a>| |  User: <a routerLink='/user/{{ topic._user}}'>{{topic._user}}</a> | Posts: {{topic.posts.length}}\n  </div><br/><br/>\n  Add topic<br/>\n  <form ngForm=\"topicForm\">\n    Text: <input type=\"text\" name=\"text\" #text> Description: <input type=\"text\" name=\"description\" #description> Category:\n    <input type=\"text\" name=\"category\" #category>\n    <button (click)=\"addTopic(text.value, description.value, category.value)\">Add Topic</button>\n  </form>\n\n</div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+
+/***/ }),
+
+/***/ 717:
+/***/ (function(module, exports) {
+
+module.exports = "<form ngForm=\"userForm\">\nUsername: <input type=\"text\" name=\"username\" #username>\n <button (click)=\"updateUser(username.value)\">Login</button>\n </form>"
+
+/***/ }),
+
+/***/ 718:
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"user && !errormessage\">\n\n  <div>\n    <a [routerLink]=\"['/dashboard']\">Dashboard</a> | <a [routerLink]=\"['/']\">Logout</a><br/><br/>\n  </div>\n\n  <div *ngIf=\"topic\">\n    User {{topic._user}} posted a topic:<br/>\n    <b>{{topic.name | json}}</b><br>\n    <b>Description: {{topic.description | json}}</b><br><br/> Post your answer here:<br/>\n    <form ngForm=\"commentForm\">\n      <input type=\"text\" name=\"post\" #post>\n      <button (click)=\"addPost(post.value)\">Post</button>\n    </form>\n    <hr>\n    Posts list:<br/>\n    <div *ngFor=\"let post of topic.posts\">\n      {{post.text | json}} - Votes up: {{post.upvote}} | Votes down: {{post.downvote}} - \n      <input name=\"postId\" type=\"hidden\" value=\"{{post._id}}\" #postId>\n      <button (click)='vote(postId.value, \"up\")'>Upvote</button> \n      <button (click)='vote(postId.value, \"down\")'>Downvote</button><br/>\n      </div>\n  </div>\n\n</div>\n\n  <div *ngIf=\"errormessage\">\n    Error: {{errormessage}}\n  </div>\n\n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
+
+/***/ }),
+
+/***/ 719:
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"userinfo && user\">\nUsername: {{userinfo.username | json}}<br/><br/>\nPosted...<br/>\nTopics: {{userinfo.topics.length}}<br/>\nPosts: {{userinfo.posts.length}}<br/>\nComments: {{userinfo.comments.length}}<br/>\n</div>\n<div *ngIf=\"errormessage\">\n  Error: {{errormessage}}\n</div>  \n<div *ngIf=\"!user\">\n  You're not a registered user, please <a [routerLink]=\"['/']\">log-in</a>\n</div>"
 
 /***/ }),
 
@@ -647,7 +774,7 @@ var CommunicateService = (function () {
 
 /***/ }),
 
-/***/ 987:
+/***/ 990:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(432);
@@ -655,5 +782,5 @@ module.exports = __webpack_require__(432);
 
 /***/ })
 
-},[987]);
+},[990]);
 //# sourceMappingURL=main.bundle.map

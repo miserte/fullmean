@@ -28,9 +28,8 @@ var Topic = mongoose.model('Topic');
 var PostSchema = new mongoose.Schema({
     text: { type: String, required: true },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-    upvote: { type: Number},
-    downvote: { type: Number},
-    _user: { type: Schema.Types.ObjectId, ref: 'User' },
+    upvote: { type: Number, default: 0},
+    downvote: { type: Number, default: 0},
     _topic: { type: Schema.Types.ObjectId, ref: 'Topic' }
 }, { timestamps: true })
 mongoose.model('Post', PostSchema);
@@ -39,8 +38,6 @@ var Post = mongoose.model('Post');
 // Comment schema, parent users topics and posts
 var CommentSchema = new mongoose.Schema({
     text: { type: String, required: true },
-    _user: { type: Schema.Types.ObjectId, ref: 'User' },
-    _topic: { type: Schema.Types.ObjectId, ref: 'Topic' },
     _post: { type: Schema.Types.ObjectId, ref: 'Post' }
 }, { timestamps: true })
 mongoose.model('Comment', CommentSchema);

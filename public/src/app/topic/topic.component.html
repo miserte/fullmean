@@ -1,11 +1,33 @@
-<div *ngIf="topic && user">
-  {{topic._user}} posted a topic:<br/>
-  <b>{{topic.name | json}}</b><br>
-  <b>Description: {{topic.description | json}}</b><br>
+<div *ngIf="user && !errormessage">
+
+  <div>
+    <a [routerLink]="['/dashboard']">Dashboard</a> | <a [routerLink]="['/']">Logout</a><br/><br/>
+  </div>
+
+  <div *ngIf="topic">
+    User {{topic._user}} posted a topic:<br/>
+    <b>{{topic.name | json}}</b><br>
+    <b>Description: {{topic.description | json}}</b><br><br/> Post your answer here:<br/>
+    <form ngForm="commentForm">
+      <input type="text" name="post" #post>
+      <button (click)="addPost(post.value)">Post</button>
+    </form>
+    <hr>
+    Posts list:<br/>
+    <div *ngFor="let post of topic.posts">
+      {{post.text | json}} - Votes up: {{post.upvote}} | Votes down: {{post.downvote}} - 
+      <input name="postId" type="hidden" value="{{post._id}}" #postId>
+      <button (click)='vote(postId.value, "up")'>Upvote</button> 
+      <button (click)='vote(postId.value, "down")'>Downvote</button><br/>
+      </div>
+  </div>
+
 </div>
-<div *ngIf="errormessage">
-  Error: {{errormessage}}
-</div>  
+
+  <div *ngIf="errormessage">
+    Error: {{errormessage}}
+  </div>
+
 <div *ngIf="!user">
   You're not a registered user, please <a [routerLink]="['/']">log-in</a>
 </div>

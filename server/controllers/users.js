@@ -2,18 +2,20 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 module.exports = {
-    show: function (req, res) {
-        User.findOne({_id: req.body.id}, function (err, user) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.json({user: user})
-            }
-        })
+    one: function (req, res) {
+        User.findOne({_id: req.params.id})
+            .populate('posts', 'comments')
+            .exec(function (err, user) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(user)
+                }
+            })
     },
     create: function (req, res) {
         var user = new User(req.body);
-        user.save(function(err, user) {
+        user.save(function (err, user) {
             if (err) {
                 res.json('Error found when adding user');
             } else {

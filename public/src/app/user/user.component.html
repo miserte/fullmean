@@ -1,0 +1,13 @@
+<div *ngIf="userinfo && user">
+Username: {{userinfo.username | json}}<br/><br/>
+Posted...<br/>
+Topics: {{userinfo.topics.length}}<br/>
+Posts: {{userinfo.posts.length}}<br/>
+Comments: {{userinfo.comments.length}}<br/>
+</div>
+<div *ngIf="errormessage">
+  Error: {{errormessage}}
+</div>  
+<div *ngIf="!user">
+  You're not a registered user, please <a [routerLink]="['/']">log-in</a>
+</div>
